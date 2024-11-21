@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { checkingAuthentication, startGoogleSignIn } from '../../store/auth';
 
 export const LoginPage = () => {
-	const { status } = useSelector((state) => state.auth);
+	const { status } = useSelector((state) => state.authSlice);
 	const dispatch = useDispatch();
 
 	const { email, password, onInputChange } = useForm({
@@ -20,12 +20,12 @@ export const LoginPage = () => {
 
 	const onSubmit = (event) => {
 		event.preventDefault();
-		console.log({ email, password });
+		// console.log({ email, password });
 		dispatch(checkingAuthentication());
 	};
 
 	const onGoogleSingIn = () => {
-		console.log('onGoogleSingIn');
+		// console.log('onGoogleSingIn');
 		dispatch(startGoogleSignIn());
 	};
 
