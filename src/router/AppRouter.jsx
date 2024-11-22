@@ -1,25 +1,11 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthRoutes } from '../auth/routes/AuthRoutes';
 import { JournalRoutes } from '../journal/routes/JournalRoutes';
-import { useDispatch, useSelector } from 'react-redux';
 import { CheckingAuth } from '../ui';
-import { useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { FirebaseAuth } from '../firebase/config';
-import { login, logout } from '../store/auth';
+import { useCheckAuth } from '../hooks/useCheckAuth';
 
 export const AppRouter = () => {
-	const { status } = useSelector((state) => state.authSlice);
-	const dispatch = useDispatch();
-
-	//* Mantener los datos del login (si sigues logeado) al recargar el navegador
-	useEffect(() => {
-		onAuthStateChanged(FirebaseAuth, async (user) => {
-			if (!user) return dispatch(logout());
-			const { uid, email, displayName, photoURL } = user;
-			dispatch(login({ uid, email, displayName, photoURL }));
-		}); // Es un obserbable
-	}, []);
+	const { status } = useCheckAuth();
 
 	if (status === 'checking') {
 		return <CheckingAuth />;
