@@ -8,6 +8,10 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
 		createValidations();
 	}, [formState]);
 
+	useEffect(() => {
+		setFormState(initialForm);
+	}, [initialForm]);
+
 	//* Si cualquiera de los valores del formulario no pasa la validación retorna falso, el formulario no es valido
 	const isFormValid = useMemo(() => {
 		for (const formValue of Object.keys(formValidation)) {
@@ -46,7 +50,6 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
 				: errorMesage; // No se ha cumplido la validación
 		}
 		setFormValidation(formCheckedValues);
-		// console.log(formCheckedValues);
 	};
 
 	return {

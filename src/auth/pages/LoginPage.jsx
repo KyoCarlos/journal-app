@@ -17,14 +17,22 @@ import {
 	startLoginWithEmailPassword,
 } from '../../store/auth';
 
+const formData = {
+	email: '',
+	password: '',
+};
+
 export const LoginPage = () => {
 	const { status, errorMessage } = useSelector((state) => state.authSlice);
 	const dispatch = useDispatch();
 
-	const { email, password, onInputChange, formState } = useForm({
-		email: '',
-		password: '',
-	});
+	//! Al mandar el initialform como objeto en vez de como referencía creaba un error con el useEffect que vuelve a renderizar el formulario al cambiar el dicho valor.
+	// const { email, password, onInputChange, formState } = useForm({
+	// 	email: '',
+	// 	password: '',
+	// });
+
+	const { email, password, onInputChange, formState } = useForm(formData);
 
 	const isAuthenticating = useMemo(() => status === 'checking', [status]);
 

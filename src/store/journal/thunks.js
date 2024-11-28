@@ -5,6 +5,7 @@ import {
 	savingNewNote,
 	setActiveNote,
 	setNotes,
+	setSaving,
 } from './journalSlice';
 import { loadNotes } from '../../helpers';
 
@@ -33,5 +34,19 @@ export const startLoadingNotes = () => {
 
 		const notes = await loadNotes(uid);
 		dispatch(setNotes(notes));
+	};
+};
+
+export const startSaveNote = () => {
+	return async (dispatch, getState) => {
+		dispatch(setSaving());
+		const { uid } = getState().authSlice;
+		const { active: note } = getState().journalSlice;
+
+		const noteToFireStore = { ...note };
+		delete noteToFireStore.id; // eliminamos la propiedad id antes de mandar el cambio a firebase
+
+		const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`); // id de note original no de noteFireStore
+		await setDoc(docRef, noteToFireStore, { merge: true });
 	};
 };

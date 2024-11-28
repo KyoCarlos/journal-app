@@ -13,6 +13,7 @@ import {
 	Typography,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { SideBarItem } from './';
 
 export const SideBar = ({ drawerWidth = 240 }) => {
 	const { displayName } = useSelector((state) => state.authSlice);
@@ -39,21 +40,7 @@ export const SideBar = ({ drawerWidth = 240 }) => {
 				<Divider />
 				<List>
 					{notes.map((note) => (
-						<ListItem key={note.id} disablePadding>
-							<ListItemButton>
-								<ListItemIcon>
-									<TurnedInNot />
-								</ListItemIcon>
-								<Grid container>
-									<ListItemText primary={note.title} />
-									<ListItemText
-										secondary={
-											'Enim exercitation consectetur ea aute occaecat sint '
-										}
-									/>
-								</Grid>
-							</ListItemButton>
-						</ListItem>
+						<SideBarItem key={note.id} note={note} />
 					))}
 				</List>
 			</Drawer>
