@@ -10,17 +10,15 @@ import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { setActiveNote } from '../../store/journal';
 
-export const SideBarItem = ({ note }) => {
+export const SideBarItem = ({ id, date, title = '', body, imageUrls = [] }) => {
 	const dispatch = useDispatch();
 	//* Acortamos el título si es muy largo
 	const newTitle = useMemo(() => {
-		return note.title.length > 17
-			? note.title.substring(0, 17) + '...'
-			: note.title;
+		return title.length > 17 ? title.substring(0, 17) + '...' : title;
 	});
 
 	const onActiveNote = () => {
-		dispatch(setActiveNote(note));
+		dispatch(setActiveNote({ title, body, id, date, imageUrls }));
 	};
 
 	return (
@@ -31,7 +29,7 @@ export const SideBarItem = ({ note }) => {
 				</ListItemIcon>
 				<Grid container>
 					<ListItemText primary={newTitle} />
-					<ListItemText secondary={note.body} />
+					<ListItemText secondary={body} />
 				</Grid>
 			</ListItemButton>
 		</ListItem>
